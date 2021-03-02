@@ -27,6 +27,7 @@ while ECHO1.value() == 1:
 
 timepass1 = signalon1 - signaloff1
 distance1 = timepass1 * 17
+#上位2桁でcm
 print("a"+str(distance1))
 
 utime.sleep_ms(250)
