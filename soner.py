@@ -9,39 +9,34 @@ TRIG_PIN = 1
 ECHO_PIN2 = 2
 TRIG_PIN2 = 3
 
-TRIG = Pin(TRIG_PIN, Pin.OUT)
+TRIG1 = Pin(TRIG_PIN, Pin.OUT)
 TRIG2 = Pin(TRIG_PIN2, Pin.OUT)
 ECHO1 = Pin(ECHO_PIN1, Pin.IN)
 ECHO2 = Pin(ECHO_PIN2, Pin.IN)
 #utime.sleep(0.3)
 
-TRIG.value(1)
-utime.sleep(0.00001)
-TRIG.value(0)
 
-while ECHO1.value() == 0:
-    signaloff1 = utime.ticks_us()
 
-while ECHO1.value() == 1:
-    signalon1 = utime.ticks_us()
+def get_distance(TRIG, ECHO):
+    
+    TRIG.value(1)
+    utime.sleep(0.00001)
+    TRIG.value(0)
+    
+    while ECHO.value() == 0:
+        signaloff = utime.ticks_us()
+    
+    while ECHO.value() == 1:
+        signalon = utime.ticks_us()
+    
+    timepass = signalon - signaloff
+    distance = timepass * 17
+    
+    return distance
 
-timepass1 = signalon1 - signaloff1
-distance1 = timepass1 * 17
-#上位2桁でcm
-print("a"+str(distance1))
 
-utime.sleep_ms(250)
+print("a"+str(get_distance(TRIG1, ECHO1)))
 
-TRIG2.value(1)
-utime.sleep(0.00001)
-TRIG2.value(0)
 
-while ECHO2.value() == 0:
-    signaloff2 = utime.ticks_us()
+print("b"+str(get_distance(TRIG2, ECHO2)))
 
-while ECHO2.value() == 1:
-    signalon2 = utime.ticks_us()
-
-timepass2 = signalon2 - signaloff2
-distance2 = timepass2 * 17
-print("b"+str(distance2))
