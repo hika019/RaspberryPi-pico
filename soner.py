@@ -19,20 +19,26 @@ ECHO2 = Pin(ECHO_PIN2, Pin.IN)
 
 def get_distance(TRIG, ECHO):
     
+    starttime = utime.ticks_us()
+    #print(str(starttime))
+    
     TRIG.value(1)
     utime.sleep(0.00001)
     TRIG.value(0)
     
     while ECHO.value() == 0:
         signaloff = utime.ticks_us()
+        if(signaloff > (starttime + 100000)):
+            return 5000
     
     while ECHO.value() == 1:
         signalon = utime.ticks_us()
     
     timepass = signalon - signaloff
     distance = timepass * 17
+    #print(str(signaloff))
     
-    return distance
+    return distance/1000#cm
 
 
 print("a"+str(get_distance(TRIG1, ECHO1)))
